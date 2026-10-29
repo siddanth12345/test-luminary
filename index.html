@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luminary</title>
+    <meta
+      name="description"
+      content="Luminary is a clean static web app demo built for GitHub Pages."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">L</div>
+          <div>
+            <p class="eyebrow">Wellness dashboard</p>
+            <h2>Luminary</h2>
+          </div>
+        </div>
+        <button class="ghost-btn" type="button">Overview</button>
+      </header>
+
+      <main class="dashboard">
+        <section class="hero card">
+          <div class="hero-copy">
+            <p class="eyebrow accent">Good morning</p>
+            <h1>Keep your momentum flowing.</h1>
+            <p class="subtext">
+              Focus on what matters, build energy, and stay in sync with your
+              day.
+            </p>
+            <div class="cta-row">
+              <button class="primary-btn" type="button" id="startSessionBtn">
+                Start session
+              </button>
+              <button class="secondary-btn" type="button">View plan</button>
+            </div>
+          </div>
+
+          <div class="ring-card">
+            <div class="progress-ring" aria-label="Daily completion">
+              <div class="ring-inner">
+                <strong id="completionValue">78%</strong>
+                <span>Complete</span>
+              </div>
+            </div>
+            <div class="mini-metrics">
+              <div>
+                <span>Streak</span>
+                <strong>12 days</strong>
+              </div>
+              <div>
+                <span>Energy</span>
+                <strong>High</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="summary-grid">
+          <article class="card stat-card">
+            <p class="eyebrow">Focus time</p>
+            <h3>2h 40m</h3>
+            <span class="delta positive">+18% vs yesterday</span>
+          </article>
+          <article class="card stat-card">
+            <p class="eyebrow">Tasks done</p>
+            <h3>7 / 9</h3>
+            <span class="delta moderate">2 left to finish</span>
+          </article>
+          <article class="card stat-card">
+            <p class="eyebrow">Recovery</p>
+            <h3>86%</h3>
+            <span class="delta positive">On track</span>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <article class="card panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Daily rhythm</p>
+                <h3>Today's flow</h3>
+              </div>
+              <button class="mini-btn" type="button">Adjust</button>
+            </div>
+
+            <div class="mood-picker" aria-label="Mood selector">
+              <button class="mood active" type="button">Calm</button>
+              <button class="mood" type="button">Focused</button>
+              <button class="mood" type="button">Creative</button>
+              <button class="mood" type="button">Energized</button>
+            </div>
+
+            <div class="activity-meta">
+              <span>Goal</span>
+              <strong>6 sessions</strong>
+            </div>
+
+            <div class="bars" aria-label="Activity graph">
+              <div class="bar-group"><span class="bar" style="--h: 35%"></span><label>Mon</label></div>
+              <div class="bar-group"><span class="bar" style="--h: 48%"></span><label>Tue</label></div>
+              <div class="bar-group"><span class="bar" style="--h: 55%"></span><label>Wed</label></div>
+              <div class="bar-group"><span class="bar" style="--h: 70%"></span><label>Thu</label></div>
+              <div class="bar-group"><span class="bar" style="--h: 82%"></span><label>Fri</label></div>
+              <div class="bar-group"><span class="bar" style="--h: 92%"></span><label>Sat</label></div>
+            </div>
+          </article>
+
+          <article class="card panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Priority list</p>
+                <h3>Focus blocks</h3>
+              </div>
+              <button class="mini-btn" type="button">+ Add</button>
+            </div>
+
+            <ul class="task-list">
+              <li class="task-item complete">
+                <span class="checkmark">✓</span>
+                <div>
+                  <strong>Review roadmap</strong>
+                  <small>9:00 AM</small>
+                </div>
+              </li>
+              <li class="task-item active">
+                <span class="checkmark">•</span>
+                <div>
+                  <strong>Prototype concept</strong>
+                  <small>11:30 AM</small>
+                </div>
+              </li>
+              <li class="task-item">
+                <span class="checkmark">•</span>
+                <div>
+                  <strong>Design feedback</strong>
+                  <small>2:00 PM</small>
+                </div>
+              </li>
+            </ul>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+"},{"content":":root {
+  --bg: #08131f;
+  --bg-soft: #0e1d2d;
+  --panel: rgba(14, 29, 45, 0.9);
+  --panel-strong: #10253a;
+  --card: #111f2d;
+  --card-alt: #182b3d;
+  --primary: #7cf0d2;
+  --primary-deep: #48d6b8;
+  --accent: #d7a9ff;
+  --text: #edf7ff;
+  --muted: #a5bbd1;
+  --line: rgba(255, 255, 255, 0.08);
+  --success: #7ef2a9;
+  --warning: #f5d271;
+  --shadow: 0 20px 45px rgba(4, 10, 20, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(124, 240, 210, 0.15), transparent 25%),
+    radial-gradient(circle at top right, rgba(215, 169, 255, 0.18), transparent 22%),
+    var(--bg);
+  color: var(--text);
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(1100px, calc(100vw - 32px));
+  margin: 32px auto;
+}
+
+.topbar,
+.card,
+.panel,
+.stat-card {
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-radius: 20px;
+  background: rgba(10, 17, 26, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--bg);
+}
+
+.brand-wrap h2,
+.hero-copy h1,
+.panel-head h3,
+.stat-card h3 {
+  margin: 0;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.eyebrow.accent {
+  color: var(--primary);
+}
+
+.ghost-btn,
+.secondary-btn,
+.mini-btn,
+.primary-btn,
+.mood {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.ghost-btn,
+.secondary-btn,
+.mini-btn {
+  background: transparent;
+  color: var(--text);
+}
+
+.ghost-btn {
+  padding: 10px 14px;
+}
+
+.dashboard {
+  margin-top: 24px;
+  display: grid;
+  gap: 22px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 24px;
+  align-items: center;
+  padding: 28px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(17, 31, 45, .95), rgba(12, 23, 33, .92));
+}
+
+.hero-copy h1 {
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.06em;
+}
+
+.subtext {
+  max-width: 56ch;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.primary-btn,
+.secondary-btn,
+.mini-btn {
+  cursor: pointer;
+  padding: 12px 18px;
+}
+
+.primary-btn {
+  border: none;
+  background: linear-gradient(135deg, var(--primary), var(--primary-deep));
+  color: #061611;
+  font-weight: 700;
+}
+
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ring-card {
+  display: grid;
+  place-items: center;
+  gap: 20px;
+  padding: 18px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(124, 240, 210, 0.12), rgba(17, 31, 45, 0.2));
+  border: 1px solid rgba(124, 240, 210, 0.18);
+}
+
+.progress-ring {
+  --progress: 78;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--primary) calc(var(--progress) * 1%), rgba(255,255,255,0.08) 0);
+  position: relative;
+}
+
+.progress-ring::before {
+  content: "";
+  position: absolute;
+  inset: 15px;
+  border-radius: 50%;
+  background: var(--panel-strong);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.ring-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.ring-inner strong {
+  font-size: 2rem;
+  letter-spacing: -0.06em;
+}
+
+.ring-inner span {
+  color: var(--muted);
+}
+
+.mini-metrics {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.mini-metrics div {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+}
+
+.mini-metrics span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  padding: 22px 24px;
+  border-radius: 20px;
+  background: rgba(17, 31, 45, 0.8);
+}
+
+.stat-card h3 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  letter-spacing: -0.05em;
+}
+
+.delta {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.88rem;
+}
+
+.delta.positive {
+  color: var(--success);
+}
+
+.delta.moderate {
+  color: var(--warning);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 20px;
+}
+
+.panel {
+  border-radius: 24px;
+  background: rgba(17, 31, 45, 0.8);
+  padding: 22px;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mood-picker {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 18px 0 16px;
+}
+
+.mood {
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+  padding: 10px 12px;
+  border-color: rgba(255,255,255,0.06);
+}
+
+.mood.active {
+  background: rgba(124, 240, 210, 0.15);
+  border-color: rgba(124, 240, 210, 0.7);
+  color: var(--primary);
+}
+
+.activity-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.bars {
+  height: 210px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: end;
+  gap: 14px;
+}
+
+.bar-group {
+  display: grid;
+  justify-items: center;
+  align-items: end;
+  gap: 8px;
+  height: 100%;
+}
+
+.bar {
+  display: block;
+  width: 100%;
+  max-width: 54px;
+  height: var(--h);
+  border-radius: 16px 16px 10px 10px;
+  background: linear-gradient(180deg, var(--primary), rgba(124, 240, 210, 0.2));
+  box-shadow: inset 0 -8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.bar-group label {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+}
+
+.task-item strong,
+.task-item small {
+  display: block;
+}
+
+.task-item small {
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.checkmark {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.task-item.complete .checkmark {
+  background: rgba(126, 242, 169, 0.15);
+  border-color: rgba(126, 242, 169, 0.5);
+  color: var(--success);
+}
+
+.task-item.active .checkmark {
+  background: rgba(124, 240, 210, 0.12);
+  border-color: rgba(124, 240, 210, 0.5);
+  color: var(--primary);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.ghost-btn:hover,
+.mini-btn:hover,
+.mood:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 820px) {
+  .hero,
+  .content-grid,
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell {
+    width: min(100vw - 24px, 1100px);
+  }
+
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .hero,
+  .panel,
+  .stat-card {
+    padding: 18px;
+  }
+}
+"},{"content":"const startSessionBtn = document.getElementById('startSessionBtn');
+const completionValue = document.getElementById('completionValue');
+const progressRing = document.querySelector('.progress-ring');
+const moodButtons = document.querySelectorAll('.mood');
+
+let progress = 78;
+
+const updateProgress = (value) => {
+  progress = Math.min(100, Math.max(0, value));
+  completionValue.textContent = `${progress}%`;
+  progressRing.style.setProperty('--progress', progress);
+};
+
+startSessionBtn.addEventListener('click', () => {
+  const nextValue = progress >= 100 ? 78 : progress + 12;
+  updateProgress(nextValue);
+  startSessionBtn.textContent = progress >= 100 ? 'Restart session' : 'Session active';
+});
+
+moodButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    moodButtons.forEach((item) => item.classList.remove('active'));
+    button.classList.add('active');
+  });
+});
+
+updateProgress(progress);
+"}],
